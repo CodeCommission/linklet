@@ -1,6 +1,6 @@
 {
   "name": "linklet",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Linklet - async ES6 lambda functions as HTTP microservice",
   "scripts": {},
   "author": {
@@ -14,7 +14,7 @@
     "lib"
   ],
   "bin": {
-    "linklet": "./bin/linklet.js"
+    "linklet": "./bin/linklet"
   },
   "dependencies": {
     "async-to-gen": "^1.3.3",
