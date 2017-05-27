@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const SERVICE_PORT = process.env.PORT || 80;
+const path = require('path');
+const program = require('commander');
+const chalk = require('chalk');
+const isAsyncSupported = require('is-async-supported');
+
+program
+.arguments('[file]')
+.option('-h, --host [ip]', 'Host to listen on.')
+.option('-p, --port [port]', 'Port to listen on.')
+.option('-s, --silent', 'Enable silent mode.')
+.action(file => serve({file, host: program.host, port: program.port, silent: program.silent}))
+.parse(process.argv);
+
+if(!program.args.length) serve(program.opts());
+
+function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
+  if (!file) {
+    try {
+      const packageJson = require(path.resolve(process.cwd(), 'package.json'));
+      file = packageJson.main || 'index.js';
+    } catch (err) {
+      if (err.code !== 'MODULE_NOT_FOUND') {
+        console.error(chalk.red(`Could not read \`package.json\`: ${err.message}`));
+        process.exit(1);
+      }
+    }
+  }
+
+  if (!file) {
+    console.error(chalk.red('Please supply a file.'));
+    args.showHelp();
+  }
+
+  if (file[0] !== '/') file = path.resolve(process.cwd(), file);
+
+  if (!isAsyncSupported()) {
+    const asyncToGen = require('async-to-gen/register');
+    const pathSep = process.platform === 'win32' ? '\\\\' : '/';
+    const directoryName = path.parse(path.join(__dirname, '..')).base;
+    const fileDirectoryPath = path.parse(file).dir.split(path.sep).join(pathSep);
+
+    asyncToGen({
+      includes: new RegExp(`.*${directoryName}?${pathSep}(lib|bin)|${fileDirectoryPath}.*`),
+      excludes: null,
+      sourceMaps: false,
+    });
+  }
+
+  require('../lib')(file, {port, host, silent});
+}

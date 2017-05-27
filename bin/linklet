@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const chalk = require('chalk');
+const updateNotifier = require('update-notifier');
+const nodeVersion = require('node-version');
+const pkg = require('../package');
+
+updateNotifier({pkg}).notify();
+
+if (nodeVersion.major < 6) {
+  console.error(chalk.red(`Error! Linklet requires at least version 6 of NodeJS. Please upgrade your NodeJS version please.`));
+  process.exit(1);
+}
+
+program
+.version(`${pkg.name} v${pkg.version}`)
+.command('serve <name>', 'Serve an async ES6 lambda functions as HTTP microservice (index.js)')
+.command('create <name>', 'Create an async ES6 lambda functions for HTTP microservice (index.js)')
+.parse(process.argv);

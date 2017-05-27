@@ -1,0 +1,1 @@
+module.exports = () => new Promise(resolve => setTimeout(() => resolve({foo: 'bar'}), 1000));

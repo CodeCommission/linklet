@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const fse = require('fs-extra');
+const program = require('commander');
+const chalk = require('chalk');
+
+program
+.arguments('[name]')
+.option('-d, --docker', 'Enable including Dockerfile using mhart/alpine-node')
+.option('-n, --node [version]', 'Using latest major NodeJS version in mhart/alpine-node')
+.action(name => create({name, docker: program.docker, nodeVersion: program.node}))
+.parse(process.argv);
+
+if(!program.args.length) create(program.opts());
+
+function create({name, docker, nodeVersion = '6'}) {
+  if(!name) {
+    console.error(chalk.red(`Enter a project name.`));
+    process.exit(1);
+  }
+
+  const projectDir = path.resolve(process.cwd(), name);
+  fse.ensureDir(projectDir)
+  .then(() => fse.outputFile(path.resolve(projectDir, 'index.js'), createSrcTmpl()))
+  .then(() => fse.outputFile(path.resolve(projectDir, 'index.test.js'), createTestTmpl()))
+  .then(() => fse.outputFile(path.resolve(projectDir, 'package.json'), createPackageTmpl({name, nodeVersion})))
+  .then(() => docker ? fse.outputFile(path.resolve(projectDir, 'Dockerfile'), createDockerTmpl({name, nodeVersion})) : Promise.resolve())
+  .then(data => {
+    console.log(chalk.green(`Linklet function ${name} created. Ready to use `));
+    console.log(chalk.gray.bold(`linklet serve ${name}`));
+  })
+  .catch(err => {
+    console.error(chalk.red(`An unexpected error occured. ${err.message}`));
+    process.exit(1);
+  });
+}
+
+function createSrcTmpl () {
+  return `'use strict'
+
+module.exports = async () => {
+  return {
+    msg: 'Hello World!',
+  };
+};`;
+}
+
+function createTestTmpl () {
+  return `const assert = require('assert');
+const linklet = require('linklet');
+const service = require('./index');
+
+describe('Endpoint integration tests', () => {
+  it('my endpoint', () => {
+    assert.ok(false);
+  });
+});
+`;
+}
+
+function createPackageTmpl ({name, nodeVersion}) {
+  return `{
+  "name": "${name}",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "linklet serve -s",
+    "dev": "nodemon linklet serve",
+    "test": "mocha"
+  },
+  "engines": {
+    "node": "^${nodeVersion}"
+  },
+  "dependencies": {
+    "linklet": "latest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "latest",
+    "nodemon": "latest"
+  }
+}
+`;
+}
+
+function createDockerTmpl ({name, nodeVersion}) {
+  return `FROM mhart/alpine-node:${nodeVersion}
+
+LABEL name "${name}"
+
+RUN mkdir /app
+WORKDIR /app
+COPY package.json /app
+RUN npm install --production
+COPY . /app
+
+EXPOSE 80
+CMD ["npm", "start"]
+`;
+}
