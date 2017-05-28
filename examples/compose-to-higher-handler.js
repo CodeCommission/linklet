@@ -1,4 +1,4 @@
-const {compose, cors, query, time, log, send} = require('linklet');
+const {compose, cors, query, time, log, send} = require('../lib');
 
 module.exports = compose(
   time({suffix: true}),
@@ -8,8 +8,8 @@ module.exports = compose(
 )(handler);
 
 async function handler (req, res) {
-  send({
+  return {
     message: 'foo',
     query: req.query,
-  });
+  };
 }

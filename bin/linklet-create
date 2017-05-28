@@ -4,6 +4,8 @@ const path = require('path');
 const fse = require('fs-extra');
 const program = require('commander');
 const chalk = require('chalk');
+const {cd, exec, which} = require('shelljs');
+const hasYarn = () => Boolean(which('yarn'));
 
 program
 .arguments('[name]')
@@ -26,6 +28,7 @@ function create({name, docker, nodeVersion = '6'}) {
   .then(() => fse.outputFile(path.resolve(projectDir, 'index.test.js'), createTestTmpl()))
   .then(() => fse.outputFile(path.resolve(projectDir, 'package.json'), createPackageTmpl({name, nodeVersion})))
   .then(() => docker ? fse.outputFile(path.resolve(projectDir, 'Dockerfile'), createDockerTmpl({name, nodeVersion})) : Promise.resolve())
+  .then(() => install({path: projectDir}))
   .then(data => {
     console.log(chalk.green(`Linklet function ${name} created. Ready to use `));
     console.log(chalk.gray.bold(`linklet serve ${name}`));
@@ -36,23 +39,32 @@ function create({name, docker, nodeVersion = '6'}) {
   });
 }
 
-function createSrcTmpl () {
-  return `'use strict'
+function install ({path}) {
+  return new Promise((resolve, reject) => {
+    cd(path);
+    const installCmd = hasYarn() ? 'yarn' : 'npm install';
 
-module.exports = async () => {
+    exec(installCmd, (code, stdout, stderr) => {
+      if (code !== 0) return reject(stderr);
+      resolve();
+    });
+  });
+}
+
+function createSrcTmpl () {
+  return `module.exports = async () => {
   return {
-    msg: 'Hello World!',
+    msg: 'Hello World from Linklet!',
   };
 };`;
 }
 
 function createTestTmpl () {
   return `const assert = require('assert');
-const linklet = require('linklet');
 const service = require('./index');
 
 describe('Endpoint integration tests', () => {
-  it('my endpoint', () => {
+  it('my endpoint', async () => {
     assert.ok(false);
   });
 });
@@ -66,8 +78,9 @@ function createPackageTmpl ({name, nodeVersion}) {
   "main": "index.js",
   "scripts": {
     "start": "linklet serve -s",
-    "dev": "nodemon linklet serve",
-    "test": "mocha"
+    "dev": "nodemon --exec linklet serve",
+    "test": "mocha --require async-to-gen/register index.test.js",
+    "deploy": "dropstack deploy --url https://api.cloud.dropstack.run"
   },
   "engines": {
     "node": "^${nodeVersion}"
@@ -77,8 +90,8 @@ function createPackageTmpl ({name, nodeVersion}) {
   },
   "license": "MIT",
   "devDependencies": {
-    "mocha": "latest",
-    "nodemon": "latest"
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0"
   }
 }
 `;

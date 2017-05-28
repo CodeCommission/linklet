@@ -1,6 +1,6 @@
 {
   "name": "linklet",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Linklet - async ES6 lambda functions as HTTP microservice",
   "scripts": {},
   "author": {
@@ -8,7 +8,7 @@
     "email": "mike.bild@googlemail.com"
   },
   "license": "MIT",
-  "main": "lib/handler.js",
+  "main": "lib/index.js",
   "files": [
     "bin",
     "lib"

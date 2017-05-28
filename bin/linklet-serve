@@ -4,7 +4,6 @@ const SERVICE_PORT = process.env.PORT || 80;
 const path = require('path');
 const program = require('commander');
 const chalk = require('chalk');
-const isAsyncSupported = require('is-async-supported');
 
 program
 .arguments('[file]')
@@ -35,19 +34,5 @@ function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
   }
 
   if (file[0] !== '/') file = path.resolve(process.cwd(), file);
-
-  if (!isAsyncSupported()) {
-    const asyncToGen = require('async-to-gen/register');
-    const pathSep = process.platform === 'win32' ? '\\\\' : '/';
-    const directoryName = path.parse(path.join(__dirname, '..')).base;
-    const fileDirectoryPath = path.parse(file).dir.split(path.sep).join(pathSep);
-
-    asyncToGen({
-      includes: new RegExp(`.*${directoryName}?${pathSep}(lib|bin)|${fileDirectoryPath}.*`),
-      excludes: null,
-      sourceMaps: false,
-    });
-  }
-
   require('../lib')(file, {port, host, silent});
 }
