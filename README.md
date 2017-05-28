@@ -22,6 +22,11 @@ Serve locally:
 linklet serve my-first-function
 ```
 
+## How to use it in my project?
+
+Look at [linklet examples](https://github.com/CodeCommission/linklet-examples).
+
+
 ## Compose to higher handler
 
 ```javascript
@@ -40,16 +45,6 @@ async function handler (req, res) {
     query: req.query,
   });
 }
-```
-
-## Self-Hosting usage as module
-
-```javascript
-const linklet = require('linklet');
-
-const http = linklet((req, res) => res.end('Hello World'));
-
-const server = http.listen(5000, () => console.log(`Listen on ${server.address().port}`));
 ```
 
 ## Extend with compose functions
