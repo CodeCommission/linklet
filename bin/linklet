@@ -15,6 +15,6 @@ if (nodeVersion.major < 6) {
 
 program
 .version(`${pkg.name} v${pkg.version}`)
-.command('serve <name>', 'Serve an async ES6 lambda functions as HTTP microservice (index.js)')
-.command('create <name>', 'Create an async ES6 lambda functions for HTTP microservice (index.js)')
+.command('serve <name>', 'serve function')
+.command('create [name]', 'sreate function')
 .parse(process.argv);

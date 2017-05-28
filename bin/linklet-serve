@@ -28,11 +28,14 @@ function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
     }
   }
 
-  if (!file) {
-    console.error(chalk.red('Please supply a file.'));
-    args.showHelp();
-  }
-
+  if (!file) return console.error(chalk.red('Please supply a file.'));
   if (file[0] !== '/') file = path.resolve(process.cwd(), file);
-  require('../lib')(file, {port, host, silent});
+
+  require('../lib')
+  .server(file, {port, host, silent})
+  .catch(err => {
+    console.error(chalk.red(`An unexpected error occurred.`));
+    console.error(err.stack);
+    process.exit(1);
+  });
 }
