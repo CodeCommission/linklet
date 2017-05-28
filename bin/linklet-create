@@ -108,7 +108,8 @@ function createPackageTmpl ({name, nodeVersion}) {
   "license": "MIT",
   "devDependencies": {
     "mocha": "^3.4.2",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "node-fetch": "^1.7.0"
   }
 }`;
 }
