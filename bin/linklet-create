@@ -3,6 +3,7 @@
 const path = require('path');
 const fse = require('fs-extra');
 const program = require('commander');
+const boxen = require('boxen');
 const chalk = require('chalk');
 const {cd, exec, which} = require('shelljs');
 const hasYarn = () => Boolean(which('yarn'));
@@ -30,8 +31,9 @@ function create({name, docker, nodeVersion = '6'}) {
   .then(() => docker ? fse.outputFile(path.resolve(projectDir, 'Dockerfile'), createDockerTmpl({name, nodeVersion})) : Promise.resolve())
   .then(() => install({path: projectDir}))
   .then(data => {
-    console.log(chalk.green(`Linklet function ${name} created. Ready to use `));
-    console.log(chalk.gray.bold(`linklet serve ${name}`));
+    let message = `${chalk.green(`Linklet ${name} created.\nServe microservice with:\n\n`)}`;
+    message += `${chalk.gray.bold(`linklet serve ${name}`)}`;
+    console.log(boxen(message, {padding: 1, borderColor: 'gray', margin: 1}));
   })
   .catch(err => {
     console.error(chalk.red(`An unexpected error occured. ${err.message}`));
