@@ -23,10 +23,6 @@ cd my-first-function
 npm run dev
 ```
 
-## How to use it in my project?
-
-Look at [linklet examples](https://github.com/CodeCommission/linklet-examples).
-
 ## Compose to higher handler
 
 ```javascript
@@ -73,3 +69,25 @@ async function handler (req, res) {
   });
 }
 ```
+
+## How to use it in my project?
+
+Being stable and inventive and have a look to our [Linklet examples](https://github.com/codecommission/linklet-examples).
+
+## Contributors
+
+Every participation is welcome. Check them out [here](https://github.com/codecommission/linklet/graphs/contributors).
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public [GitHub issue tracker](https://github.com/codecommission/linklet/issues).
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+
+## Thanks
+
+You like this and you want to see what coming next? Follow me on Twitter [`@mikebild`](https://twitter.com/mikebild).
+
+Enjoy!

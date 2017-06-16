@@ -1,13 +1,23 @@
 {
   "name": "linklet",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Async lambda functions as HTTP microservices.",
-  "scripts": {},
-  "author": {
-    "name": "Mike Bild",
-    "email": "mike.bild@googlemail.com"
-  },
+  "author": "Mike Bild <mike@codecommission.com>",
+  "homepage": "https://github.com/codecommission/linklet#readme",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codecommission/linklet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/codecommission/linklet/issues"
+  },
+  "keywords": [
+    "http",
+    "microservice",
+    "async"
+  ],
+  "scripts": {},
   "main": "lib/index.js",
   "files": [
     "bin",
