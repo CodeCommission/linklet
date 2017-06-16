@@ -1,7 +1,7 @@
 {
   "name": "linklet",
-  "version": "2.2.2",
-  "description": "Linklet - async ES6 lambda functions as HTTP microservice",
+  "version": "2.2.3",
+  "description": "Async lambda functions as HTTP microservices.",
   "scripts": {},
   "author": {
     "name": "Mike Bild",

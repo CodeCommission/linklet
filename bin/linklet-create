@@ -99,7 +99,7 @@ function createPackageTmpl ({name, nodeVersion}) {
     "start": "linklet serve",
     "dev": "nodemon --exec linklet serve -p 3000",
     "test": "mocha --require async-to-gen/register index.test.js",
-    "deploy": "dropstack deploy --url https://api.cloud.dropstack.run"
+    "deploy": "dropstack deploy"
   },
   "engines": {
     "node": "^${nodeVersion}"

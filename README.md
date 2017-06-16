@@ -1,6 +1,6 @@
 # Linklet
 
-> HTTP microservice made fast and easy with ES6 async lambda functions.
+> Async lambda functions as HTTP microservices.
 
 ## Setup & Run
 
@@ -19,13 +19,13 @@ linklet create my-first-function
 Serve locally:
 
 ```bash
-linklet serve my-first-function
+cd my-first-function
+npm run dev
 ```
 
 ## How to use it in my project?
 
 Look at [linklet examples](https://github.com/CodeCommission/linklet-examples).
-
 
 ## Compose to higher handler
 
