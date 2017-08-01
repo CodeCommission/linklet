@@ -33,7 +33,10 @@ function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
 
   let server = null;
 
-  process.on('SIGINT', () => server.close(() => process.exit(0)));
+  process.on('SIGINT', () => {
+    server.close();
+    process.exit(0);
+  });
 
   require('../lib')
   .server(file, {port, host, silent})
