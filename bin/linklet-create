@@ -96,8 +96,8 @@ function createPackageTmpl ({name, nodeVersion}) {
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "linklet serve",
-    "dev": "nodemon --exec linklet serve -p 3000",
+    "start": "NODE_ENV=production linklet serve",
+    "dev": "NODE_ENV=development nodemon --exec linklet serve -p 3000",
     "test": "mocha --require async-to-gen/register index.test.js",
     "deploy": "dropstack deploy"
   },
