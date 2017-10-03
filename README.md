@@ -1,73 +1,43 @@
-# Linklet
+# Linklet Microservice
 
-> Async lambda functions as HTTP microservices.
+> Async functions as HTTP Microservices.
+
+## Documentation
+
+* [Linklet Microservice Documentation](docs/README.md)
+* [Linklet Examples](https://github.com/codecommission/linklet-examples)
+* [Introduction to NodeJS](https://github.com/mikebild/introduction-nodejs)
+
+## Features
+
+* Easy to use and **Production Ready**
+* **Lightweight** and designed to being customizable
+* EcmaScript **Async/Await** support
+* **CLI** to create and manage Microservices
+* Standards - just **HTTP**
+* **CORS** support
+* **Agile** and super easy deployment and containerization
+* **Composable** to develop Higher-Order Request/Response-Handlers
 
 ## Setup & Run
 
 Firstly, install it:
 
 ```bash
-npm i -g linklet
+npm install -g linklet
 ```
 
-Create your first ES6 async lambda function:
+Create your first Microservice:
 
 ```bash
-linklet create my-first-function
+linklet create my-microservice
 ```
 
 Serve locally:
 
 ```bash
-cd my-first-function
+cd my-microservice
 npm run dev
-```
-
-## Compose to higher handler
-
-```javascript
-const {compose, cors, query, time, log, send} = require('linklet');
-
-module.exports = compose(
-  time({suffix: true}),
-  cors({}),
-  log({json: true}),
-  query()
-)(handler);
-
-async function handler (req, res) {
-  send({
-    message: 'foo',
-    query: req.query,
-  });
-}
-```
-
-## Extend with compose functions
-
-### Create extention
-
-```javascript
-module.exports.myFooModule = options => handler => (req, res) => {
-   // do something ...
-  return handler(req, res);
-};
-```
-
-### Extention usage
-
-```javascript
-module.exports = compose(
-  log({json: true}),
-  myFooModule({suffix: true}),
-)(handler);
-
-async function handler (req, res) {
-  send({
-    message: 'foo',
-    query: req.query,
-  });
-}
 ```
 
 ## How to use it in my project?
@@ -76,7 +46,7 @@ Being stable and inventive and have a look to our [Linklet examples](https://git
 
 ## Contributors
 
-Every participation is welcome. Check them out [here](https://github.com/codecommission/linklet/graphs/contributors).
+Every participation is welcome, just read [CONTRIBUTING](CONTRIBUTING.md), take a look at the [ROADMAP](docs/ROADMAP.md) and make your first PR!
 
 ## Issue Reporting
 
@@ -88,6 +58,6 @@ This project is licensed under the MIT license. See the [LICENSE](LICENSE) file 
 
 ## Thanks
 
-You like this and you want to see what coming next? Follow me on Twitter [`@mikebild`](https://twitter.com/mikebild).
+You like this and you want to see what coming next? Follow us on Twitter [`@linklet_run`](https://twitter.com/linklet_run).
 
 Enjoy!
