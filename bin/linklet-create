@@ -9,39 +9,64 @@ const {cd, exec, which} = require('shelljs');
 const hasYarn = () => Boolean(which('yarn'));
 
 program
-.arguments('[name]')
-.option('-d, --docker', 'include dockerfile (mhart/alpine-node)')
-.option('-n, --node [version]', 'NodeJS 6/7 (mhart/alpine-node)')
-.action(name => create({name, docker: program.docker, nodeVersion: program.node}))
-.parse(process.argv);
+  .arguments('[name]')
+  .option('-d, --docker', 'include dockerfile (mhart/alpine-node)')
+  .option('-n, --node [version]', 'NodeJS 6/8 (mhart/alpine-node)')
+  .action(name =>
+    create({name, docker: program.docker, nodeVersion: program.node})
+  )
+  .parse(process.argv);
 
-if(!program.args.length) create(program.opts());
+if (!program.args.length) create(program.opts());
 
-function create({name, docker, nodeVersion = '6'}) {
-  if(!name) {
+function create({name, docker, nodeVersion = '8'}) {
+  if (!name) {
     console.error(chalk.red(`Enter a project name.`));
     process.exit(1);
   }
 
   const projectDir = path.resolve(process.cwd(), name);
-  fse.ensureDir(projectDir)
-  .then(() => fse.outputFile(path.resolve(projectDir, 'index.js'), createSrcTmpl()))
-  .then(() => fse.outputFile(path.resolve(projectDir, 'index.test.js'), createTestTmpl()))
-  .then(() => fse.outputFile(path.resolve(projectDir, 'package.json'), createPackageTmpl({name, nodeVersion})))
-  .then(() => docker ? fse.outputFile(path.resolve(projectDir, 'Dockerfile'), createDockerTmpl({name, nodeVersion})) : Promise.resolve())
-  .then(() => install({path: projectDir}))
-  .then(data => {
-    let message = `${chalk.green(`Linklet ${name} created.\nServe microservice with:\n\n`)}`;
-    message += `${chalk.gray.bold(`linklet serve ${name}`)}`;
-    console.log(boxen(message, {padding: 1, borderColor: 'gray', margin: 1}));
-  })
-  .catch(err => {
-    console.error(chalk.red(`An unexpected error occured. ${err.message}`));
-    process.exit(1);
-  });
+  fse
+    .ensureDir(projectDir)
+    .then(() =>
+      fse.outputFile(path.resolve(projectDir, 'index.js'), createSrcTmpl())
+    )
+    .then(() =>
+      fse.outputFile(
+        path.resolve(projectDir, 'index.test.js'),
+        createTestTmpl()
+      )
+    )
+    .then(() =>
+      fse.outputFile(
+        path.resolve(projectDir, 'package.json'),
+        createPackageTmpl({name, nodeVersion})
+      )
+    )
+    .then(
+      () =>
+        docker
+          ? fse.outputFile(
+              path.resolve(projectDir, 'Dockerfile'),
+              createDockerTmpl({name, nodeVersion})
+            )
+          : Promise.resolve()
+    )
+    .then(() => install({path: projectDir}))
+    .then(data => {
+      let message = `${chalk.green(
+        `Linklet ${name} created.\nServe microservice with:\n\n`
+      )}`;
+      message += `${chalk.gray.bold(`linklet serve ${name}`)}`;
+      console.log(boxen(message, {padding: 1, borderColor: 'gray', margin: 1}));
+    })
+    .catch(err => {
+      console.error(chalk.red(`An unexpected error occured. ${err.message}`));
+      process.exit(1);
+    });
 }
 
-function install ({path}) {
+function install({path}) {
   return new Promise((resolve, reject) => {
     cd(path);
     const installCmd = hasYarn() ? 'yarn' : 'npm install';
@@ -53,7 +78,7 @@ function install ({path}) {
   });
 }
 
-function createSrcTmpl () {
+function createSrcTmpl() {
   return `module.exports = async () => {
   return {
     msg: 'Hello World from Linklet!',
@@ -61,7 +86,7 @@ function createSrcTmpl () {
 };`;
 }
 
-function createTestTmpl () {
+function createTestTmpl() {
   return `const assert = require('assert');
 const fetch = require('node-fetch');
 const linklet = require('linklet');
@@ -90,7 +115,7 @@ describe('Integration tests', () => {
 });`;
 }
 
-function createPackageTmpl ({name, nodeVersion}) {
+function createPackageTmpl({name, nodeVersion}) {
   return `{
   "name": "${name}",
   "version": "0.0.0",
@@ -116,7 +141,7 @@ function createPackageTmpl ({name, nodeVersion}) {
 }`;
 }
 
-function createDockerTmpl ({name, nodeVersion}) {
+function createDockerTmpl({name, nodeVersion}) {
   return `FROM mhart/alpine-node:${nodeVersion}
 
 LABEL name "${name}"

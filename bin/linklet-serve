@@ -6,14 +6,21 @@ const program = require('commander');
 const chalk = require('chalk');
 
 program
-.arguments('[file]')
-.option('-h, --host [ip]', 'Host to listen on.')
-.option('-p, --port [port]', 'Port to listen on.')
-.option('-s, --silent', 'Enable silent mode.')
-.action(file => serve({file, host: program.host, port: program.port, silent: program.silent}))
-.parse(process.argv);
+  .arguments('[file]')
+  .option('-h, --host [ip]', 'Host to listen on.')
+  .option('-p, --port [port]', 'Port to listen on.')
+  .option('-s, --silent', 'Enable silent mode.')
+  .action(file =>
+    serve({
+      file,
+      host: program.host,
+      port: program.port,
+      silent: program.silent
+    })
+  )
+  .parse(process.argv);
 
-if(!program.args.length) serve(program.opts());
+if (!program.args.length) serve(program.opts());
 
 function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
   if (!file) {
@@ -22,7 +29,9 @@ function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
       file = packageJson.main || 'index.js';
     } catch (err) {
       if (err.code !== 'MODULE_NOT_FOUND') {
-        console.error(chalk.red(`Could not read \`package.json\`: ${err.message}`));
+        console.error(
+          chalk.red(`Could not read \`package.json\`: ${err.message}`)
+        );
         process.exit(1);
       }
     }
@@ -38,11 +47,11 @@ function serve({file, port = SERVICE_PORT, host = '0.0.0.0', silent = false}) {
   });
 
   require('../lib')
-  .server(file, {port, host, silent})
-  .then(srv => server = srv)
-  .catch(err => {
-    console.error(chalk.red(`An unexpected error occurred.`));
-    console.error(err.stack);
-    process.exit(1);
-  });
+    .server(file, {port, host, silent})
+    .then(srv => (server = srv))
+    .catch(err => {
+      console.error(chalk.red(`An unexpected error occurred.`));
+      console.error(err.stack);
+      process.exit(1);
+    });
 }

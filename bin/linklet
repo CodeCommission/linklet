@@ -9,12 +9,16 @@ const pkg = require('../package');
 updateNotifier({pkg}).notify();
 
 if (nodeVersion.major < 6) {
-  console.error(chalk.red(`Error! Linklet requires at least version 6 of NodeJS. Please upgrade your NodeJS version please.`));
+  console.error(
+    chalk.red(
+      `Error! Linklet requires at least version 6 of NodeJS. Please upgrade your NodeJS version please.`
+    )
+  );
   process.exit(1);
 }
 
 program
-.version(`${pkg.name} v${pkg.version}`)
-.command('serve <name>', 'serve function')
-.command('create [name]', 'sreate function')
-.parse(process.argv);
+  .version(`${pkg.name} v${pkg.version}`)
+  .command('serve <name>', 'serve function')
+  .command('create [name]', 'sreate function')
+  .parse(process.argv);
