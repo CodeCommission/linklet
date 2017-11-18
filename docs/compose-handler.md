@@ -17,7 +17,7 @@ module.exports = compose(
 
 async function handler(req) {
   return {
-    message: "foo",
+    message: 'foo',
     query: req.query
   };
 }
