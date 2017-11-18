@@ -6,13 +6,19 @@
 ## Compose handler functions
 
 ```javascript
-const { compose, cors, query, time, log } = require('linklet');
+const {
+  compose,
+  withCORS,
+  withQuery,
+  withTime,
+  withLog
+} = require('linklet');
 
 module.exports = compose(
-  time({ suffix: true }),
-  cors({}),
-  log({ json: true }),
-  query()
+  withTime({ suffix: true }),
+  withCORS(),
+  withLog({ json: true }),
+  withQuery()
 )(handler);
 
 async function handler(req) {
@@ -25,8 +31,10 @@ async function handler(req) {
 
 ## Create reusable custom handler functions
 
+Create **my-module.js**
+
 ```javascript
-module.exports.myFooModule = options => handler => (req, res) => {
+module.exports = ({} = {}) => handler => (req, res) => {
    // do something ...
   return handler(req, res);
 };
@@ -35,14 +43,17 @@ module.exports.myFooModule = options => handler => (req, res) => {
 ### Extention usage
 
 ```javascript
+const { compose, withLog } = require('linklet');
+const myModule = require('./my-module');
+
 module.exports = compose(
-  log({json: true}),
-  myFooModule({suffix: true}),
+  withLog({json: true}),
+  myModule({}),
 )(handler);
 
 async function handler (req, res) {
   return ({
-    message: 'foo',
+    message: 'something ...',
     query: req.query,
   });
 }
