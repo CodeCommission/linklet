@@ -6,20 +6,20 @@
 ## Compose handler functions
 
 ```javascript
-const {compose, cors, query, time, log, send} = require('linklet');
+const { compose, cors, query, time, log } = require('linklet');
 
 module.exports = compose(
-  time({suffix: true}),
+  time({ suffix: true }),
   cors({}),
-  log({json: true}),
+  log({ json: true }),
   query()
 )(handler);
 
-async function handler (req, res) {
-  send({
-    message: 'foo',
-    query: req.query,
-  });
+async function handler(req) {
+  return {
+    message: "foo",
+    query: req.query
+  };
 }
 ```
 
@@ -41,7 +41,7 @@ module.exports = compose(
 )(handler);
 
 async function handler (req, res) {
-  send({
+  return ({
     message: 'foo',
     query: req.query,
   });
