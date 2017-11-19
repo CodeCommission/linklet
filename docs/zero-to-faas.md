@@ -1,4 +1,4 @@
-# From Zero to Function-as-a-Service
+# From Zero to Function-as-a-Service with Linklet
 
 The following guide will show you how to deploy a simple HTTP micro-service written in JavaScript using [Linklet](https://linklet.run) deployed with [DropStack](https://dropstack.run).
 
