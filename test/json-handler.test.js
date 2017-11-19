@@ -15,13 +15,13 @@ const sut = linklet(
   }))
 );
 
-describe('Linklet compose handler tests', () => {
+describe('Linklet compose withJsonBody() tests', () => {
   let instance = null;
 
   before(() => (instance = sut.listen()));
   after(() => instance.close());
 
-  it('Should handle JSON body withJsonBody()', () => {
+  it('Should handle JSON body', () => {
     return fetch(`http://localhost:${instance.address().port}`, {
       method: 'POST',
       body: JSON.stringify({hello: 'world'})

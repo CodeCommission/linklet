@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const linklet = require('../lib');
 const sut = linklet((req, res) => ({message: 'Hello World from Linklet!'}));
 
-describe('Linklet as module', () => {
+describe('Linklet as module tests', () => {
   let instance = null;
 
   before(() => (instance = sut.listen()));
