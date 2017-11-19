@@ -8,6 +8,7 @@
 * [From Zero to Function-as-a-Service with Linklet](docs/zero-to-faas.md)
 * [Linklet Examples](https://github.com/codecommission/linklet-examples)
 * [Introduction to NodeJS](https://github.com/mikebild/introduction-nodejs)
+* [FaaS with Linklet v3 / SpeakerDeck / 2017](https://speakerdeck.com/mikebild/functions-as-a-service-with-linklet)
 
 ## Features
 
@@ -28,22 +29,22 @@ Firstly, install it:
 npm install -g linklet
 ```
 
-Create your first Microservice:
+Create your first micro-service:
 
 ```bash
-linklet create my-microservice
+linklet create my-faas
 ```
 
 Serve locally:
 
 ```bash
-cd my-microservice
+cd my-faas
 npm run dev
 ```
 
 ## How to use it in my project?
 
-Being stable and inventive and have a look to our [Linklet examples](https://github.com/codecommission/linklet-examples).
+Being stable and inventive and have a look to our [Linklet Examples](https://github.com/codecommission/linklet-examples).
 
 ## Contributors
 
