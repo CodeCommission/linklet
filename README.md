@@ -1,6 +1,6 @@
 # Linklet Microservice
 
-> Async functions as HTTP Microservices.
+> Functions-as-a-Service for async HTTP microservices.
 
 ## Documentation
 
