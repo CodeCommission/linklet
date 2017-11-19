@@ -4,7 +4,8 @@
 
 ## Documentation
 
-* [Linklet Microservice Documentation](docs/README.md)
+* [Linklet Documentation](docs/README.md)
+* [Linklet From Zero to Function-as-a-Service](docs/zero-to-faas.md)
 * [Linklet Examples](https://github.com/codecommission/linklet-examples)
 * [Introduction to NodeJS](https://github.com/mikebild/introduction-nodejs)
 
