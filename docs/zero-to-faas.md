@@ -9,11 +9,9 @@ It uses Open Source tools that are widely available, tested and understood:
 
 ## Prerequisites
 
-Make sure Node.JS v8.9.x is installed in your machine. If not, head to https://nodejs.org/en/ and download it and install it.
+Make sure NodeJS v8.9.x is installed in your machine. If not, head to [https://nodejs.org](https://nodejs.org) and download it and install it.
 
-To execute the commands described in this guide, launch your preferred Terminal. On Mac OS X, you can locate "Terminal.app" under "Applications" > "Utilities".
-
-To make sure Node.JS (which comes with `npm`) is properly installed, try running the command:
+To make sure NodeJS (which comes with `npm`) is properly installed, run the command:
 
 ```bash
 npm --version
@@ -25,7 +23,7 @@ It should look similar to this:
 
 ### Installing DropStack
 
-`dropstack` is a tool that will immediately deploy any Node.JS Applications and HTTP service (Stacklets) with all its files and dependencies to a hybrid-cloud environment.
+`dropstack` is a tool that will immediately deploy any NodeJS Applications and HTTP service (Stacklets) with all its files and dependencies to a hybrid-cloud environment.
 
 Install it with NPM as follows:
 
@@ -69,7 +67,7 @@ Create a fresh HTTP service for it and go to it:
 
 ```bash
 linklet create my-faas
-cd ~/my-faas
+cd ./my-faas
 ```
 
 If you then look at the content of the folder, it will look as follows:
