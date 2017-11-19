@@ -155,4 +155,4 @@ curl -s -XPOST \
 
 ![](img/curl-post.png)
 
-Voila! Micro-Services with Function-as-a-Service done right - fast and Easy! Isn't it? If you have any questions about this tutorial, please add an issue in this GitHub project.
+Voila! Micro-Services done right. Fast and easy! Isn't it? If you have any questions about this tutorial, please add an issue in this GitHub project.

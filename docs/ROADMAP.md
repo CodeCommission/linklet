@@ -9,22 +9,22 @@ This document contains a rough outline of a roadmap and a few designs for future
 * Compose functions to higher-order req/res-handler
 * Response-Time-Header handler function
 * CORS handler function
-
-### Current
-
-* Performance testing in production settings
-* Enhance documentation and tests
 * Response-Time-Log handler function
 * Req/Res-Log handler function
 * Deployment guide to:
   * [DropStack](https://dropstack.run)
 
+### Current
+
+* Performance testing in production settings
+* Enhance documentation and tests
+* Simplification of API
+* Authentication and Authorization handler function via Basic, OAuth2 and JWT
+
 ### Next up
 
 * Hot-Reloading without nodemon
-* Authentication and Authorization handler function via JWT
 * Rate limiting handler function
-* Simplification of API
 * Better error handling and log outputs
 * More examples
 
