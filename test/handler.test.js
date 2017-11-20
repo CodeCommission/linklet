@@ -8,7 +8,7 @@ describe('Linklet handler tests', () => {
   it('Should response with status code 200 by default', async () => {
     const server = await linklet((req, res) => {
       return {};
-    }).listen({port: 3131});
+    }).listen();
     const response = await fetch(`http://localhost:${server.address().port}`);
 
     assert.equal(response.status, 200);

@@ -1,6 +1,6 @@
 {
   "name": "linklet",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Async lambda functions as HTTP microservices.",
   "author": "Mike Bild <mike@codecommission.com>",
   "homepage": "https://github.com/codecommission/linklet#readme",
@@ -14,8 +14,8 @@
   },
   "keywords": ["http", "microservice", "async"],
   "scripts": {
-    "test": "mocha --require async-to-gen",
-    "test:watch": "mocha --watch --require async-to-gen"
+    "test": "mocha --require async-to-gen/register",
+    "test:watch": "mocha --watch --require async-to-gen/register"
   },
   "main": "lib/index.js",
   "files": ["bin", "lib"],

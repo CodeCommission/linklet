@@ -43,6 +43,12 @@ function create({name, docker, nodeVersion = '8'}) {
         createPackageTmpl({name, nodeVersion})
       )
     )
+    .then(() =>
+      fse.outputFile(path.resolve(projectDir, '.env-dev'), createEnvDev())
+    )
+    .then(() =>
+      fse.outputFile(path.resolve(projectDir, '.env-prod'), createEnvProd())
+    )
     .then(
       () =>
         docker
@@ -122,8 +128,8 @@ function createPackageTmpl({name, nodeVersion}) {
   "version": "0.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production linklet serve",
-    "dev": "NODE_ENV=development nodemon --exec linklet serve -p 3000",
+    "start": "env $(cat .env-prod | xargs) linklet serve",
+    "dev": "env $(cat .env-dev | xargs) nodemon --exec linklet serve -p 3000",
     "test": "mocha --require async-to-gen/register index.test.js",
     "test:watch": "mocha --watch --require async-to-gen/register index.test.js"
   },
@@ -142,11 +148,25 @@ function createPackageTmpl({name, nodeVersion}) {
 }`;
 }
 
+function createEnvDev() {
+  return `
+  NODE_ENV=development
+
+  `;
+}
+
+function createEnvProd() {
+  return `
+  NODE_ENV=production
+
+  `;
+}
+
 function createDockerTmpl({name, nodeVersion}) {
   return `FROM mhart/alpine-node:${nodeVersion}
 
 STOPSIGNAL SIGINT
-RUN apk add --no-cache dumb-init
+${nodeVersion == 6 ? '' : 'RUN apk add --no-cache dumb-init'}
 
 LABEL name "${name}"
 
@@ -157,5 +177,7 @@ RUN npm install --production
 COPY . /app
 
 EXPOSE 80
-CMD ["dumb-init", "npm", "start"]`;
+${nodeVersion == 6
+    ? 'CMD ["npm", "start"]'
+    : 'CMD ["dumb-init", "npm", "start"]'}`;
 }
