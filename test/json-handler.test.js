@@ -18,8 +18,8 @@ const sut = linklet(
 describe('Linklet compose withJsonBody() tests', () => {
   let instance = null;
 
-  before(() => (instance = sut.listen()));
-  after(() => instance.close());
+  before(async () => await (instance = sut.listen()));
+  after(async () => await instance.close());
 
   it('Should handle JSON body', () => {
     return fetch(`http://localhost:${instance.address().port}`, {

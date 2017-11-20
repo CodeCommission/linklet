@@ -7,8 +7,8 @@ const sut = linklet((req, res) => ({message: 'Hello World from Linklet!'}));
 describe('Linklet as module tests', () => {
   let instance = null;
 
-  before(() => (instance = sut.listen()));
-  after(() => instance.close());
+  before(async () => await (instance = sut.listen()));
+  after(async () => await instance.close());
 
   it('Should respone with status code 200', () => {
     return fetch(
