@@ -177,7 +177,9 @@ RUN npm install --production
 COPY . /app
 
 EXPOSE 80
-${nodeVersion == 6
-    ? 'CMD ["npm", "start"]'
-    : 'CMD ["dumb-init", "npm", "start"]'}`;
+${
+    nodeVersion == 6
+      ? 'CMD ["npm", "start"]'
+      : 'CMD ["dumb-init", "npm", "start"]'
+  }`;
 }
